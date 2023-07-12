@@ -1,0 +1,9 @@
+li a {
+    color: darkgreen;
+    text-decoration: none;
+}
+
+li a:hover {
+    font-weight: bold;
+    text-decoration: underline;
+}
