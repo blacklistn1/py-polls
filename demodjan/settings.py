@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+from os import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -31,13 +33,14 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'polls.apps.PollsConfig',
+    'profile_api.apps.ProfileApiConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -77,9 +80,11 @@ WSGI_APPLICATION = 'demodjan.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'demo_djan',
-        'USER': 'root',
-        'PASSWORD': '1234'
+        'NAME': environ['DB_DATABASE'],
+        'HOST': environ['DB_HOST'],
+        'PORT': int(environ['DB_PORT']),
+        'USER': environ['DB_USERNAME'],
+        'PASSWORD': environ['DB_PASSWORD'],
     }
 }
 
@@ -114,7 +119,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-PORT = 3000
+PORT = int(environ['SERVER_PORT'])
 
 
 # Static files (CSS, JavaScript, Images)
@@ -126,3 +131,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'profile_api.UserProfile'
